@@ -1,4 +1,4 @@
-module github.com/x04/cclient
+module github.com/dominusmars/cclient
 
 go 1.15
 
