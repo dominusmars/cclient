@@ -4,21 +4,21 @@ import (
 	"golang.org/x/net/proxy"
 	"net/http"
 
-	utls "github.com/refraction-networking/utls"
+	utls "gitlab.com/dominusmars/utls.git"
 )
-
-func NewClient(clientHello utls.ClientHelloID, proxyUrl ...string) (http.Client, error) {
+//NewClient Creates a new http client with the presets. FOR NO JA3 just preset use "" instead
+func NewClient(ja3 string, clientHello utls.ClientHelloID, proxyUrl ...string) (http.Client, error) {
 	if len(proxyUrl) > 0 && len(proxyUrl) > 0 {
 		dialer, err := newConnectDialer(proxyUrl[0])
 		if err != nil {
 			return http.Client{}, err
 		}
 		return http.Client{
-			Transport: newRoundTripper(clientHello, dialer),
+			Transport: newRoundTripper(ja3, clientHello, dialer),
 		}, nil
 	} else {
 		return http.Client{
-			Transport: newRoundTripper(clientHello, proxy.Direct),
+			Transport: newRoundTripper(ja3, clientHello, proxy.Direct),
 		}, nil
 	}
 }
