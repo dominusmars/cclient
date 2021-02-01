@@ -244,7 +244,7 @@ func newRoundTripper(ja3 string, clientHello utls.ClientHelloID, dialer ...proxy
 			dialer: proxy.Direct,
 
 			clientHelloId: clientHello,
-
+			ja3: ja3,
 			cachedTransports:  make(map[string]http.RoundTripper),
 			cachedConnections: make(map[string]net.Conn),
 		}
