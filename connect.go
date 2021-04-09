@@ -21,12 +21,13 @@ import (
 	"crypto/tls"
 	"encoding/base64"
 	"errors"
-	"golang.org/x/net/proxy"
 	"io"
 	"net"
 	"net/http"
 	"net/url"
 	"sync"
+
+	"golang.org/x/net/proxy"
 
 	"golang.org/x/net/http2"
 )
@@ -76,10 +77,10 @@ func newConnectDialer(proxyUrlStr string) (proxy.ContextDialer, error) {
 	default:
 		return nil, errors.New("scheme " + proxyUrl.Scheme + " is not supported")
 	}
-
+	
 	client := &connectDialer{
 		ProxyUrl:          *proxyUrl,
-		DefaultHeader:     make(http.Header),
+		DefaultHeader:     http.Header{},
 		EnableH2ConnReuse: true,
 	}
 
@@ -106,7 +107,7 @@ func (c *connectDialer) DialContext(ctx context.Context, network, address string
 	req := (&http.Request{
 		Method: "CONNECT",
 		URL:    &url.URL{Host: address},
-		Header: make(http.Header),
+		Header: http.Header{},
 		Host:   address,
 	}).WithContext(ctx)
 	for k, v := range c.DefaultHeader {
