@@ -12,9 +12,9 @@ import (
 )
 
 //NewClient Creates a new http client with the presets. FOR NO JA3 just preset use "" instead
-func NewClient(clientHello utls.ClientHelloID, proxyUrl ...string) (http.Client, error) {
+func NewClient(clientHello utls.ClientHelloID,UserAgent string, proxyUrl ...string) (http.Client, error) {
 	if len(proxyUrl) > 0 {
-		dialer, err := newConnectDialer(proxyUrl[0])
+		dialer, err := newConnectDialer(proxyUrl[0] , UserAgent)
 		if err != nil {
 			return http.Client{}, err
 		}
