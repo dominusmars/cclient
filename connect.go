@@ -77,10 +77,10 @@ func newConnectDialer(proxyUrlStr string) (proxy.ContextDialer, error) {
 	default:
 		return nil, errors.New("scheme " + proxyUrl.Scheme + " is not supported")
 	}
-	
+
 	client := &connectDialer{
 		ProxyUrl:          *proxyUrl,
-		DefaultHeader:     http.Header{},
+		DefaultHeader:     make(http.Header),
 		EnableH2ConnReuse: true,
 	}
 
@@ -107,7 +107,7 @@ func (c *connectDialer) DialContext(ctx context.Context, network, address string
 	req := (&http.Request{
 		Method: "CONNECT",
 		URL:    &url.URL{Host: address},
-		Header: http.Header{},
+		Header: make(http.Header),
 		Host:   address,
 	}).WithContext(ctx)
 	for k, v := range c.DefaultHeader {
